@@ -1,0 +1,200 @@
+###############################################################################
+# IGNORAR ARQUIVOS E PASTAS DESNECESSÁRIAS EM UM PROJETO REACT NATIVE + EXPO #
+###############################################################################
+
+# === Dependências e builds ===
+node_modules/
+bower_components/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# === Expo ===
+.expo/
+.expo-shared/
+.expo-dev/
+web-build/
+
+# === Metro Bundler ===
+.metro-cache/
+.bundle/
+
+# === Cache do React Native ===
+tmp/
+temp/
+*.tmp
+*.temp
+
+# === Android ===
+android/.gradle/
+android/.idea/
+android/.settings/
+android/app/build/
+android/build/
+android/local.properties
+android/gradlew
+android/gradlew.bat
+android/gradle/
+android/gradle-wrapper.jar
+*.keystore
+*.jks
+*.apk
+*.aab
+*.iml
+
+# === iOS ===
+ios/build/
+ios/DerivedData/
+ios/Pods/
+ios/*.xcodeproj/project.xcworkspace/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+ios/*.xcodeproj/xcuserdata/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+*.xcuserdata
+*.DS_Store
+
+# === Web (caso use Expo Web ou React Native Web) ===
+build/
+dist/
+.next/
+out/
+coverage/
+
+# === Ambientes e variáveis ===
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*
+!.env.example
+
+# === Arquivos do sistema ===
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# === Editor / IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+*.orig
+*.rej
+
+# === Configurações e caches de ferramentas ===
+.eslintcache
+.prettier-cache/
+babel.config.json
+jest-cache/
+jest/
+coverage/
+.cache/
+.husky/
+dist/
+tmp/
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# === Backups de merge ===
+*.orig
+
+# === Testes ===
+*.lcov
+test-results/
+coverage-final.json
+
+# === Certificados / chaves / credenciais ===
+*.p12
+*.pem
+*.key
+*.mobileprovision
+*.cer
+*.der
+*.crt
+*.csr
+
+# === Arquivos temporários e artefatos ===
+*.tgz
+*.tar.gz
+*.zip
+*.rar
+*.7z
+*.bak
+*.tmp
+*.temp
+*.swp
+*.swo
+*.lock
+*.log
+*.cache
+*.orig
+
+# === Watchman ===
+.watchmanconfig
+watchman/
+
+# === Fastlane (automação iOS/Android) ===
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+fastlane/readme.md
+
+# === Firebase / Google Services ===
+google-services.json
+GoogleService-Info.plist
+
+# === Expo EAS / credenciais ===
+*.p8
+*.p10
+*.mobileprovision
+*.keystore
+*.jks
+*.keychain
+eas.json
+credentials.json
+
+# === Visual Studio Code / Cursor / JetBrains ===
+.vscode/
+.cursorignore
+.cursorindexingignore
+.idea/
+*.iml
+
+# === Misc ===
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+*.tgz
+*.zip
+*.tar.gz
+
+# === Ambientes e variáveis ===
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*
+!.env.example
+
+
+###############################################################################
+# FIM DO ARQUIVO .gitignore PARA REACT NATIVE / EXPO                          #
+###############################################################################
