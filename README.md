@@ -66,11 +66,21 @@ O projeto contribui diretamente para o **turismo sustentável e a educação amb
 ```bash
 git clone <url-do-repositório>
 npm install
+npx expo start
+```
+
+Criar o arquivo .env na raiz do projeto com a variável 
+```bash
+API_URL=
 ```
 
 - A api utilizada foi a Api desenvolvida pela equipe na disciplina MVP-Backend, segue o repositório:
 ```bash
 https://github.com/LucasBerlim/MVP-backend-api-python.git
+```
+- Comando para rodar a Api:
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ## Protótipo
