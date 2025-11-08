@@ -11,12 +11,14 @@ import { api1 } from "../../services/api";
 
 import ParquesBar from "../../components/ParquesBar/ParquesBar";
 import ParqueBanner from "../../components/ParqueBanner/ParqueBanner";
-import EventoCard from "../../components/EventoCard/EventoCard"; 
+import EventoCard from "../../components/EventoCard/EventoCard";
 
 import { styles } from "./ActivitiesScreen.styles";
 
-dayjs.extend(utc); dayjs.extend(timezone);
-dayjs.locale("pt-br"); dayjs.tz.setDefault("America/Sao_Paulo");
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.locale("pt-br");
+dayjs.tz.setDefault("America/Sao_Paulo");
 
 const STORAGE_PARK_KEY = "@parqueFiltro";
 const PARQUES_PATH = "/parques";
@@ -37,16 +39,22 @@ type AtividadeDTO = {
 type ActivityItem = {
   id: string;
   title: string;
-  subtitle: string;    
+  subtitle: string;
   location: string;
   description?: string;
 };
 
-export default function ActivitiesScreen({ onCreatePress, showCreateFab = false }: { onCreatePress?: () => void; showCreateFab?: boolean }) {
+export default function ActivitiesScreen({
+  onCreatePress,
+  showCreateFab = false,
+}: {
+  onCreatePress?: () => void;
+  showCreateFab?: boolean;
+}) {
   const theme = useTheme();
 
   const [parques, setParques] = useState<ParqueDTO[]>([]);
-  const [selectedParqueId, setSelectedParqueId] = useState<string>(""); 
+  const [selectedParqueId, setSelectedParqueId] = useState<string>("");
   const [selectedTipo, setSelectedTipo] = useState<"all" | TipoAtividade>("all");
   const [query, setQuery] = useState("");
 
@@ -81,66 +89,77 @@ export default function ActivitiesScreen({ onCreatePress, showCreateFab = false 
       location: a.localizacao,
     }));
 
-  const fetchActivities = useCallback(async () => {
-    try {
-      setError(null);
-      setLoading(true);
+  const fetchActivities = useCallback(
+    async (pid?: string, tipo?: "all" | TipoAtividade) => {
+      try {
+        setError(null);
+        setLoading(true);
 
-      const tipoParam = selectedTipo === "all" ? undefined : selectedTipo;
+        const parqueId = typeof pid === "string" ? pid : selectedParqueId;
+        const tipoSel = (tipo ?? selectedTipo);
+        const tipoParam = tipoSel === "all" ? undefined : tipoSel;
 
-      if (selectedParqueId) {
-        try {
-          const res = await api1.get<{ atividades: AtividadeDTO[] }>(
-            `${ATIVIDADES_POR_PARQUE_PATH}/${selectedParqueId}`,
+        if (parqueId) {
+          try {
+            const res = await api1.get<{ atividades: AtividadeDTO[] }>(
+              `${ATIVIDADES_POR_PARQUE_PATH}/${parqueId}`,
+              { params: tipoParam ? { tipo: tipoParam } : {} }
+            );
+            setActivities(mapAtividades(res.data?.atividades ?? []));
+          } catch (err: any) {
+            if (err?.response?.status === 404) {
+              setActivities([]);
+            } else {
+              throw err;
+            }
+          }
+          return;
+        }
+
+        const ids = parques.map((p) => p.id ?? p._id).filter((v): v is string => Boolean(v));
+        if (ids.length === 0) {
+          setActivities([]);
+          return;
+        }
+
+        const requests = ids.map((idEach) =>
+          api1.get<{ atividades: AtividadeDTO[] }>(
+            `${ATIVIDADES_POR_PARQUE_PATH}/${idEach}`,
             { params: tipoParam ? { tipo: tipoParam } : {} }
-          );
-          setActivities(mapAtividades(res.data?.atividades ?? []));
-        } catch (err: any) {
-          if (err?.response?.status === 404) {
-            setActivities([]);
+          )
+        );
+
+        const responses = await Promise.allSettled(requests);
+        const agregadas: AtividadeDTO[] = [];
+        for (const r of responses) {
+          if (r.status === "fulfilled") {
+            agregadas.push(...(r.value.data?.atividades ?? []));
           } else {
-            throw err;
+            const st = (r as any)?.reason?.response?.status;
+            if (st !== 404) {
+            }
           }
         }
-        return;
-      }
 
-      const ids = parques.map((p) => p.id ?? p._id).filter((v): v is string => Boolean(v));
-      if (ids.length === 0) {
+        setActivities(mapAtividades(agregadas));
+      } catch {
         setActivities([]);
-        return;
+        setError("Erro ao carregar atividades");
+      } finally {
+        setLoading(false);
       }
+    },
+    [selectedParqueId, selectedTipo, parques]
+  );
 
-      const requests = ids.map((pid) =>
-        api1.get<{ atividades: AtividadeDTO[] }>(
-          `${ATIVIDADES_POR_PARQUE_PATH}/${pid}`,
-          { params: tipoParam ? { tipo: tipoParam } : {} }
-        )
-      );
+  useEffect(() => {
+    loadInitialFilter();
+    fetchParques();
+  }, [loadInitialFilter, fetchParques]);
 
-      const responses = await Promise.allSettled(requests);
-      const agregadas: AtividadeDTO[] = [];
-      for (const r of responses) {
-        if (r.status === "fulfilled") {
-          agregadas.push(...(r.value.data?.atividades ?? []));
-        } else {
-          const st = (r as any)?.reason?.response?.status;
-          if (st !== 404) {
-          }
-        }
-      }
-
-      setActivities(mapAtividades(agregadas));
-    } catch {
-      setActivities([]);
-      setError("Erro ao carregar atividades");
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedParqueId, selectedTipo, parques]);
-
-  useEffect(() => { loadInitialFilter(); fetchParques(); }, [loadInitialFilter, fetchParques]);
-  useEffect(() => { if (!loadingParques) fetchActivities(); }, [fetchActivities, loadingParques]);
+  useEffect(() => {
+    if (!loadingParques) fetchActivities();
+  }, [fetchActivities, loadingParques]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -152,7 +171,7 @@ export default function ActivitiesScreen({ onCreatePress, showCreateFab = false 
     setSelectedParqueId(id);
     await AsyncStorage.setItem(STORAGE_PARK_KEY, id);
     setLoading(true);
-    fetchActivities();
+    fetchActivities(id, selectedTipo);
   };
 
   const currentParque = useMemo(() => {
@@ -191,7 +210,9 @@ export default function ActivitiesScreen({ onCreatePress, showCreateFab = false 
     return (
       <SafeAreaView style={styles.loading} edges={["top"]}>
         <Text style={styles.errorText}>{error}</Text>
-        <Button mode="contained" onPress={fetchActivities}>Tentar novamente</Button>
+        <Button mode="contained" onPress={() => fetchActivities()}>
+          Tentar novamente
+        </Button>
       </SafeAreaView>
     );
   }
@@ -209,10 +230,10 @@ export default function ActivitiesScreen({ onCreatePress, showCreateFab = false 
       )}
 
       <View style={styles.filterRow}>
-        <Chip selected={selectedTipo === "all"} onPress={() => setSelectedTipo("all")}>Todos</Chip>
-        <Chip selected={selectedTipo === "trilha"} onPress={() => setSelectedTipo("trilha")}>Trilha</Chip>
-        <Chip selected={selectedTipo === "cachoeira"} onPress={() => setSelectedTipo("cachoeira")}>Cachoeira</Chip>
-        <Chip selected={selectedTipo === "escalada"} onPress={() => setSelectedTipo("escalada")}>Escalada</Chip>
+        <Chip selected={selectedTipo === "all"} onPress={() => { setSelectedTipo("all"); fetchActivities(selectedParqueId, "all"); }}>Todos</Chip>
+        <Chip selected={selectedTipo === "trilha"} onPress={() => { setSelectedTipo("trilha"); fetchActivities(selectedParqueId, "trilha"); }}>Trilha</Chip>
+        <Chip selected={selectedTipo === "cachoeira"} onPress={() => { setSelectedTipo("cachoeira"); fetchActivities(selectedParqueId, "cachoeira"); }}>Cachoeira</Chip>
+        <Chip selected={selectedTipo === "escalada"} onPress={() => { setSelectedTipo("escalada"); fetchActivities(selectedParqueId, "escalada"); }}>Escalada</Chip>
       </View>
 
       <Searchbar
@@ -225,15 +246,17 @@ export default function ActivitiesScreen({ onCreatePress, showCreateFab = false 
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.colors.primary} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.colors.primary} />
+        }
         contentContainerStyle={[styles.listContent, filtered.length === 0 && styles.listContentCentered]}
-        ListEmptyComponent={<View style={styles.emptyContainer}><Text>Nenhuma atividade encontrada.</Text></View>}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text>Nenhuma atividade encontrada.</Text>
+          </View>
+        }
         renderItem={({ item }) => (
-          <EventoCard
-            title={item.title}
-            subtitle={item.subtitle}
-            location={item.location}
-          />
+          <EventoCard title={item.title} subtitle={item.subtitle} location={item.location} />
         )}
       />
 

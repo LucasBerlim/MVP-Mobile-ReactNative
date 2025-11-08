@@ -39,10 +39,12 @@ export const styles = StyleSheet.create({
     columnGap: 8,
     marginTop: 10,
   },
-
-  dialog: {
-    borderRadius: 12,
+  actionsSection: {
+    flexDirection: "column",
+    gap: 8,
+    paddingVertical: 4,
   },
-
-  mt8: { marginTop: 8 },
+  fullButton: {
+    width: "100%",
+  },
 });
