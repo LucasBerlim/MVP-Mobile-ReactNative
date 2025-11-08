@@ -1,5 +1,18 @@
 # 🌿 Circuito Terê Verde — MVP Mobile
 
+## Índice
+
+1. [Introdução](#introdução)
+2. [Resumo do Projeto](#resumo-do-projeto)
+3. [Situação-Problema](#situação-problema)
+4. [Atores Envolvidos](#atores-envolvidos)
+5. [Requisitos Principais](#requisitos-principais)
+6. [Tecnologias Utilizadas](#tecnologias-utilizadas)
+7. [Instalação e Execução](#instalação-e-execução)
+8. [Protótipo](#protótipo)
+
+---
+
 ## Intrudução
 
 Disciplina: MVP-Mobile
@@ -43,12 +56,6 @@ O desafio consiste em **criar uma solução digital eficiente e acessível** par
 
 ---
 
-## Impacto
-
-O projeto contribui diretamente para o **turismo sustentável e a educação ambiental**, fortalecendo a conexão entre a comunidade local, os visitantes e o patrimônio natural de Teresópolis.
-
----
-
 ## Tecnologias Utilizadas
 
 - **React Native**  
@@ -83,9 +90,11 @@ https://github.com/LucasBerlim/MVP-backend-api-python.git
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
+---
+
 ## Protótipo
 
-<img width="293" height="633" alt="IMG_9020" src="https://github.com/user-attachments/assets/c9ef04fa-f1f7-4032-9c37-a98b3a9f08a2" />
-<img width="293" height="633" alt="IMG_9019" src="https://github.com/user-attachments/assets/038f3180-7882-4a77-ac3b-7108b01640a1" />
-<img width="293" height="633" alt="IMG_9018" src="https://github.com/user-attachments/assets/eaeb4b75-717f-4e90-b3b0-09823f6d9cf5" />
-<img width="293" height="633" alt="IMG_9021" src="https://github.com/user-attachments/assets/7d361229-5ef8-4113-8d35-72e776d88e5f" />
+<img width="233" height="573" alt="IMG_9020" src="https://github.com/user-attachments/assets/c9ef04fa-f1f7-4032-9c37-a98b3a9f08a2" />
+<img width="233" height="573" alt="IMG_9019" src="https://github.com/user-attachments/assets/038f3180-7882-4a77-ac3b-7108b01640a1" />
+<img width="233" height="573" alt="IMG_9018" src="https://github.com/user-attachments/assets/eaeb4b75-717f-4e90-b3b0-09823f6d9cf5" />
+<img width="233" height="573" alt="IMG_9021" src="https://github.com/user-attachments/assets/7d361229-5ef8-4113-8d35-72e776d88e5f" />
