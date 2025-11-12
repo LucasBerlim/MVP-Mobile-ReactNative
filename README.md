@@ -20,7 +20,7 @@ Disciplina: MVP-Mobile
 Equipe: 
 
   - Lucas Branco Berlim da Cunha
-  - Leticia Lopes Cardoso
+  - Leticia Lopes Cardozo Beraldo
 
 ## Resumo do Projeto
 
