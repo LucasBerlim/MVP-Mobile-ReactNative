@@ -10,6 +10,7 @@
 6. [Tecnologias Utilizadas](#tecnologias-utilizadas)
 7. [Instalação e Execução](#instalação-e-execução)
 8. [Protótipo](#protótipo)
+9. [Requisitos](#requisitos)
 
 ---
 
@@ -21,6 +22,7 @@ Equipe:
 
   - Lucas Branco Berlim da Cunha
   - Leticia Lopes Cardozo Beraldo
+  - Luiz Ricardo Silva
 
 ## Resumo do Projeto
 
@@ -98,3 +100,17 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 <img width="233" height="573" alt="IMG_9019" src="https://github.com/user-attachments/assets/038f3180-7882-4a77-ac3b-7108b01640a1" />
 <img width="233" height="573" alt="IMG_9018" src="https://github.com/user-attachments/assets/eaeb4b75-717f-4e90-b3b0-09823f6d9cf5" />
 <img width="233" height="573" alt="IMG_9021" src="https://github.com/user-attachments/assets/7d361229-5ef8-4113-8d35-72e776d88e5f" />
+
+---
+
+## Requisitos
+
+- Funcionais:
+  - O sistema deve permitir que o visitante visualize informações atualizadas sobre os três parques (PARNASO, Três Picos e Montanhas de Teresópolis), incluindo trilhas, biodiversidade, eventos e horários de funcionamento.
+  - O sistema deve permitir que administradores autenticados cadastrem, editem e removam informações sobre eventos, trilhas, notificações e dados gerais dos parques.
+  - O sistema deve disponibilizar uma tela de login, onde administradores informam e-mail e senha, garantindo acesso restrito às funcionalidades de gerenciamento.
+
+- Não funcionais:
+  - O aplicativo deve responder às interações do usuário em no máximo 2 segundos, garantindo navegação fluida mesmo em dispositivos intermediários.
+  - O aplicativo deve apresentar interface clara e intuitiva, utilizando componentes padronizados para facilitar o uso por visitantes e turistas sem necessidade de treinamento.
+  - O sistema deve utilizar criptografia baseada em JWT para autenticação e armazenamento seguro das credenciais dos administradores, garantindo proteção contra acessos não autorizados.
